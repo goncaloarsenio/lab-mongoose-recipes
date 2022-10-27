@@ -9,6 +9,8 @@ const MONGODB_URI = 'mongodb://localhost:27017/recipe-app';
 
 //Method 1 : Using Async Await
 
+const bacalhau = {title: "bacalhau a bras", level: "Easy Peasy", ingredients:["bacalhou", "ovo", "batata palha"], cuisine: "portuguesa", dishType: 'main_course', image: "https://receitadebacalhau.com.br/wp-content/uploads/2021/11/receita-de-bacalhau-a-bras-classico.jpg", duration: 30, creator:"Goncalo Arsenio"}
+
 const manageRecipes = async () => {
   try {
     // Connection to the database "recipe-app"
@@ -19,8 +21,28 @@ const manageRecipes = async () => {
     await Recipe.deleteMany();
 
     // Run your code here, after you have insured that the connection was made
+    await Recipe.create(bacalhau);
+    console.log(bacalhau.title)
+
+let allRecipes = await Recipe.insertMany(data)
+for (let i= 0; i < allRecipes.length; i++) {
+  console.log(allRecipes[i].title)
+}
+
+
+let updateRigatoni = await Recipe.findOneAndUpdate({title: "Rigatoni alla Genovese"}, {duration: 100});
+
+console.log(updateRigatoni)
+/* console.log("duration changed with success") */
+
+
+  await Recipe.deleteOne({title: "Carrot Cake"},);
+
+dbConnection.disconnect();
+
   } catch (error) {
     console.log(error);
+
   }
 };
 
